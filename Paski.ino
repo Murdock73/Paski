@@ -31,8 +31,8 @@ OneWire oneWire(ONE_WIRE_BUS);
 DallasTemperature DS18B20(&oneWire);
 char temperatureCString[7];
 
-// Web Server on port 113
-WiFiServer server(113);
+// Web Server on port 80
+WiFiServer server(80);
 
 // only runs once on boot
 void setup() {
