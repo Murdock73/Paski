@@ -15,8 +15,8 @@ int Timer = 0;
 float tempread = 0;
 
 
-//char auth[] = "d342eb62c8cb45388f45a2286466f7d4";
-char auth[] = "a6e7aaebe53443c6ba43a9ae7e9d6dd2";
+//char auth[] = "d342eb62c8cb453****************";
+char auth[] = "a6e7aaebe53443************";
 
 SimpleTimer timer;
 
@@ -24,8 +24,8 @@ void setup()
 {
   Serial.begin(9600);
   pinMode(heat, OUTPUT);
-  //Blynk.begin(auth, "Vodafone-33779956", "azj7i569969laue");
-  Blynk.begin(auth, "Vodafone-skynet", "Rickyale.73");
+  //Blynk.begin(auth, "Vodafone*********", "***********");
+  Blynk.begin(auth, "Vodafone-************", "***********");
   digitalWrite(heat, HIGH);
   sensors.begin();
 
