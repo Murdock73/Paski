@@ -13,7 +13,7 @@ int Button = 0;
 int Temp = 0;
 int Timer = 0;
 float tempread = 0;
-
+float offset = 0,25;
 
 //char auth[] = "d342eb62c8cb453****************";
 char auth[] = "a6e7aaebe53443************";
@@ -40,9 +40,17 @@ void sendTemps()
 
   Blynk.virtualWrite(0, tempread);
 
-  if (Button == 1 &&  Timer == 1 && tempread < Temp) {
-    digitalWrite(heat, LOW);
+  if (Button == 1 &&  Timer == 1) {
     Serial.println("Entra");
+    val = digitalRead(heat);
+    if (val = LOW && tempread > Temp) {
+      digitalWrite(heat, HIGH);
+      Serial.println("Temperatura raggiunta, spengo");
+    }
+    if (val = HIGH && tempread < (Temp - offset)) {
+      digitalWrite(heat, LOW);
+      Serial.println("Temperatura - offset non raggiunta, accendo");
+    }
   }
   else {
     digitalWrite(heat, HIGH);
@@ -70,6 +78,7 @@ BLYNK_WRITE(V2)
   if (Timer == 0) {
     Blynk.virtualWrite(1, 0); 
   }
+  
 }
 
 BLYNK_WRITE(V3)
