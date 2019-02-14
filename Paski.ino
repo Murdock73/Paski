@@ -13,7 +13,7 @@ int Button = 0;
 int Temp = 0;
 int Timer = 0;
 float tempread = 0;
-float offset = 0,25;
+float offset = 0,3;
 
 //char auth[] = "d342eb62c8cb453****************";
 char auth[] = "a6e7aaebe53443************";
@@ -43,13 +43,24 @@ void sendTemps()
   if (Button == 1 &&  Timer == 1) {
     Serial.println("Entra");
     val = digitalRead(heat);
-    if (val = LOW && tempread > Temp) {
-      digitalWrite(heat, HIGH);
-      Serial.println("Temperatura raggiunta, spengo");
+    // riscaldamento acceso
+    if (val = LOW) {
+      // temperatura superiore alla soglia spengo
+      if (tempread >= Temp) {
+        digitalWrite(heat, HIGH);
+        Serial.println("Temperatura raggiunta, spengo");
+      }
+      // temperatura inferiore alla soglia resta acceso
     }
-    if (val = HIGH && tempread < (Temp - offset)) {
-      digitalWrite(heat, LOW);
-      Serial.println("Temperatura - offset non raggiunta, accendo");
+      
+    // riscaldamento spento
+    if (val = HIGH) {
+      // temperatura inferiore alla soglia - offset: accendo
+      if (tempread <= Temp - offset) {
+        digitalWrite(heat, LOW);
+        Serial.println("Temperatura - offeset non raggiunta, accendo");
+      }
+      // temperatura superiore alla soglia resta spento
     }
   }
   else {
