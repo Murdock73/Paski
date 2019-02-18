@@ -5,10 +5,13 @@
 #include <DallasTemperature.h>
 #include <TimeLib.h>
 #include <SimpleTimer.h>
+#include <EEPROM.h>
+
 #define ONE_WIRE_BUS D7
 #define heat D5
 OneWire oneWire(ONE_WIRE_BUS);
 DallasTemperature sensors(&oneWire);
+int addr = 0;
 int Button = 0;
 int Temp = 0;
 int Timer = 0;
@@ -28,6 +31,7 @@ void setup()
   Blynk.begin(auth, "Vodafone-************", "***********");
   digitalWrite(heat, HIGH);
   sensors.begin();
+  EEPROM.begin(512);
 
   timer.setInterval(5000L, sendTemps); // Temperature sensor polling interval (5000L = 5 seconds)
 }
@@ -39,6 +43,7 @@ void sendTemps()
   tempread = sensors.getTempCByIndex(0); // Gets first probe on wire in lieu of by address
 
   Blynk.virtualWrite(0, tempread);
+  Temp = EEPROM.read(address);
 
   if (Button == 1 &&  Timer == 1) {
     Serial.println("Entra");
@@ -98,6 +103,9 @@ BLYNK_WRITE(V3)
   Serial.print("Slider: ");
   Serial.println(param.asStr());
   Temp = param.asInt();
+  // Salvo la temperatura in EEPROM
+  EEPROM.write(addr, Temp);
+  EEPROM.commit();
 }
 
 void loop()
